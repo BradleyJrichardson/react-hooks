@@ -1,4 +1,12 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p align="center">
+  <img width="250" height="250" src="./src/assets/hook.png"></p>
+  
+<h1 align="center"> 
+Hooks
+</h1>
+<br>
+
+## Project Outline
 
 ## Available Scripts
 

@@ -1,9 +1,22 @@
-import React, { useState } from "react";
-import { ANIMALS } from "@frontendmasters/pet";
+import React, { useState, useEffect } from "react";
+import pet, { ANIMALS } from "@frontendmasters/pet";
+import useDropdown from "./useDropdown";
+
 const SearchParams = () => {
   const [location, setLocation] = useState("Seattle, WA");
-  const [animal, setAnimal] = useState("dog");
-  const [breed, setBreeds] = useState([]);
+  const [breeds, setBreeds] = useState([]);
+  const [animal, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
+  const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
+
+  useEffect(() => {
+    setBreeds([]);
+    setBreed("");
+
+    pet.breeds(animal).then(({ breeds }) => {
+      const breedStrings = breeds.map(({ name }) => name);
+      setBreeds(breedStrings);
+    }, console.error);
+  }, [animal, setBreed, setBreeds]);
 
   console.log(ANIMALS);
   return (
@@ -18,49 +31,8 @@ const SearchParams = () => {
             onChange={event => setLocation(event.target.value)}
           />
         </label>
-
-        <label htmlFor="animal">
-          Animal
-          <select
-            id="animal"
-            value={animal}
-            placeholder="animal"
-            onChange={event => setAnimal(event.target.value)}
-            onBlue={event => setAnimal(event.target.value)}
-          >
-            <option>All</option>
-            {ANIMALS.map(animal => {
-              return (
-                <option key={animal} value={animal}>
-                  {animal}
-                </option>
-              );
-            })}
-
-            <option value="" />
-          </select>
-        </label>
-
-        <label htmlFor="breed">
-          Breed
-          <select
-            id="breed"
-            value={breed}
-            placeholder="breed"
-            onChange={event => setBreeds(event.target.value)}
-            onBlue={event => setBreeds(event.target.value)}
-            disabled={breeds.length === 0}
-          >
-            <option>All</option>
-            {breeds.map(breedString => {
-              return (
-                <option key={breedString} value={breedString}>
-                  {breedString}
-                </option>
-              );
-            })}
-          </select>
-        </label>
+        <AnimalDropdown />
+        <BreedDropdown />
         <button>Submit</button>
       </form>
     </div>
@@ -81,3 +53,7 @@ export default SearchParams;
 /// Hooks
 // can be defined by useSomething
 // NEVER GO INSIDE OF IF STATEMENTS OR LOOPS
+
+/// useEffect
+// takes the place of normal react lifecycle methods
+// it does not happen immediatly rather after the first render, similar to componentdidmount
