@@ -1,21 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { Router, Link } from "@reach/router";
 import SearchParams from "./SearchParams";
 import Details from "./Details";
+import ThemeContext from "./ThemeContext";
 
 const App = () => {
-  return (
-    <div>
-      <header>
-        <Link to="/">Adopt Me!</Link>
-      </header>
+  const themeHook = useState("peru");
+  /// passing the value "peru" into the themeContext
+  // we can pass objects into the context.provider and they can be accessed by themeconsumers with obj.keyname :)
 
-      <Router>
-        <SearchParams path="/" />
-        <Details path="/details/:id" />
-      </Router>
-    </div>
+  return (
+    <ThemeContext.Provider value={themeHook}>
+      <div>
+        <header>
+          <Link to="/">Adopt Me!</Link>
+        </header>
+
+        <Router>
+          <SearchParams path="/" />
+          <Details path="/details/:id" />
+        </Router>
+      </div>
+    </ThemeContext.Provider>
   );
 };
 
