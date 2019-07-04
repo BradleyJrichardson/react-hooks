@@ -12,8 +12,8 @@ const SearchParams = () => {
     setBreeds([]);
     setBreed("");
 
-    pet.breeds(animal).then(({ breeds }) => {
-      const breedStrings = breeds.map(({ name }) => name);
+    pet.breeds(animal).then(({ breeds: apiBreeds }) => {
+      const breedStrings = apiBreeds.map(({ name }) => name);
       setBreeds(breedStrings);
     }, console.error);
   }, [animal, setBreed, setBreeds]);
@@ -57,3 +57,18 @@ export default SearchParams;
 /// useEffect
 // takes the place of normal react lifecycle methods
 // it does not happen immediatly rather after the first render, similar to componentdidmount
+
+/// Run useEffect only once
+// useEffect(() => {
+//   setBreeds([]);
+//   setBreed("");
+
+//   pet.breeds(animal).then(({ breeds }) => {
+//     const breedStrings = breeds.map(({ name }) => name);
+//     setBreeds(breedStrings);
+//   }, console.error);
+/// }, []);
+
+/// destructiong a response
+// pet.breeds(animal).then(({ breeds: apiBreeds })
+// renaming it
